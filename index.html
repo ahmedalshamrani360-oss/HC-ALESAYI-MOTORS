@@ -332,6 +332,7 @@ tbody tr:hover{background:#FAFAFF}
       <div class="card" id="turnoverDetailsCard" style="margin:0 0 16px;display:none">
         <h3>تفاصيل مؤشر الدوران</h3>
         <div id="turnoverAsOf" class="muted" style="margin-bottom:10px;font-size:12.5px"></div>
+        <div id="turnoverCounts"></div>
         <div class="tablewrap"><table id="turnoverTable"></table></div>
       </div>
 
@@ -480,7 +481,8 @@ function isSaudi(x){return String(x.nationality||'').trim().toLowerCase()==='sau
 function sum(data,key){return data.reduce((a,b)=>a+num(b[key]),0);}
 function group(data,key,limit=12){let o={}; data.forEach(r=>{let v=val(r[key])||'غير محدد'; o[v]=(o[v]||0)+1;}); return Object.fromEntries(Object.entries(o).sort((a,b)=>b[1]-a[1]).slice(0,limit));}
 function excelDate(v){if(!v)return ''; if(typeof v==='number'&&v>20000&&v<60000){let d=new Date((v-25569)*86400*1000); return d.toISOString().slice(0,10);} if(v instanceof Date&&!isNaN(v)) return v.toISOString().slice(0,10); return String(v).slice(0,10);}
-function todayISO(){ return new Date().toISOString().slice(0,10); }
+function todayISO(){ const d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function statusFromTermDate(t){ return (t && String(t).slice(0,10) <= todayISO()) ? 'Terminated' : 'Active'; }
 function pick(r,keys){for(const k of keys){if(r[k]!==undefined && r[k]!==null && r[k]!=='') return r[k];} return '';}
 
 // ---------- Sidebar / navigation ----------
@@ -638,31 +640,59 @@ function fmtDateTime(iso){
   const timePart = d.toLocaleTimeString('ar-SA', { hour:'2-digit', minute:'2-digit' });
   return datePart + ' — ' + timePart;
 }
+// ---------- Turnover: rolling last 30 days ----------
+const EVENTS_KEY = 'hcc_events';
+let events = [];   // transfers + leavers that disappeared from the file (kept ~120 days)
+function isoLocal(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function daysAgoISO(n){ const d=new Date(); d.setDate(d.getDate()-n); return isoLocal(d); }
+function fmtDay(iso){ if(!iso) return ''; const p=String(iso).slice(0,10).split('-'); return p.length===3 ? p[2]+'/'+p[1]+'/'+p[0] : iso; }
+function inScopeSection(r){ return currentSection==='all' || r.sectionKey===currentSection; }
+function turnoverLast30(){
+  const from = daysAgoISO(30), to = todayISO();
+  const inRange = d => d && String(d).slice(0,10) >= from && String(d).slice(0,10) <= to;
+  const scoped = rows.filter(r=>r.sectionKey && inScopeSection(r));
+  const joiners = scoped.filter(r=>inRange(r.hireDate));
+  const leavers = scoped.filter(r=>r.status==='Terminated' && inRange(r.terminationDate));
+  const leaverIds = new Set(leavers.map(r=>String(r.employeeNo)));
+  const upcoming = scoped.filter(r=>r.status==='Active' && r.terminationDate && String(r.terminationDate).slice(0,10) > to);
+  const evs = events.filter(e=>inRange(e.date));
+  const missing = evs.filter(e=>e.type==='left' && (currentSection==='all' || e.sectionKey===currentSection) && !leaverIds.has(String(e.employeeNo)));
+  const transfers = evs.filter(e=>e.type==='transferred' && (currentSection==='all' || e.sectionKey===currentSection || e.fromSectionKey===currentSection));
+  return {from, to, joiners, leavers, upcoming, missing, transfers};
+}
 function renderTurnoverDetails(){
   const asOfEl = document.getElementById('turnoverAsOf');
   const table = document.getElementById('turnoverTable');
-  if(!lastUpdate){
-    asOfEl.textContent = 'لا توجد بيانات مقارنة متاحة بعد — تُحسب هذه التفاصيل تلقائياً عند رفع ملف جديد ومقارنته بالملف السابق.';
-    table.innerHTML = '';
-    return;
-  }
-  asOfEl.textContent = 'مقارنة آخر ملفّين تم رفعهما — الملف الحالي: "' + (lastUpdate.fileName||'') + '" بتاريخ ' + fmtDateTime(lastUpdate.at);
-  const joiners = (lastUpdate.joiners || []).map(r=>Object.assign({_type:'joined'}, r));
-  const leavers = (lastUpdate.leavers || []).map(r=>Object.assign({_type:'left'}, r));
-  const transfers = (lastUpdate.transfers || []).map(r=>Object.assign({_type:'transferred'}, r));
-  const combined = joiners.concat(leavers).concat(transfers);
-  table.innerHTML = combined.length
-    ? '<thead><tr><th>الرقم</th><th>الاسم</th><th>القسم</th><th>المسمى الوظيفي</th><th>الحالة</th></tr></thead><tbody>'+
-      combined.map(r=>{
-        let statusCell;
-        if(r._type==='joined') statusCell = '<span class="pill green">انضم</span>';
-        else if(r._type==='left') statusCell = '<span class="pill red">غادر</span>';
-        else statusCell = '<span class="pill amber">انتقل من '+sectionLabel(r.fromSectionKey)+' إلى '+sectionLabel(r.sectionKey)+'</span>';
-        const deptCell = r._type==='transferred' ? sectionLabel(r.fromSectionKey)+' ← '+sectionLabel(r.sectionKey) : sectionLabel(r.sectionKey);
-        return '<tr><td>'+val(r.employeeNo)+'</td><td>'+val(r.name)+'</td><td>'+deptCell+'</td><td>'+val(r.job)+'</td><td>'+statusCell+'</td></tr>';
-      }).join('')+
-      '</tbody>'
-    : '<tbody><tr><td class="muted">لا يوجد أي تغيير (انضمام أو مغادرة أو نقل بين الأقسام) بين آخر ملفّين.</td></tr></tbody>';
+  const t = turnoverLast30();
+  asOfEl.textContent = 'آخر 30 يوم: من ' + fmtDay(t.from) + ' إلى ' + fmtDay(t.to)
+    + ' — الانضمام حسب تاريخ التعيين، والمغادرة حسب تاريخ الإنهاء، والنقل بين الأقسام يُسجَّل عند رفع الملفات.'
+    + (lastUpdate ? ' آخر ملف مرفوع: "' + (lastUpdate.fileName||'') + '" بتاريخ ' + fmtDateTime(lastUpdate.at) : '');
+  const items = [];
+  t.joiners.forEach(r=>items.push({k:'joined', date:r.hireDate, r}));
+  t.leavers.forEach(r=>items.push({k:'left', date:r.terminationDate, r, reason:r.terminationReason}));
+  t.missing.forEach(e=>items.push({k:'left', date:e.date, r:e, reason:'غير موجود في آخر ملف'}));
+  t.transfers.forEach(e=>items.push({k:'transferred', date:e.date, r:e}));
+  t.upcoming.forEach(r=>items.push({k:'notice', date:r.terminationDate, r, reason:r.terminationReason}));
+  const order = {joined:0,left:1,transferred:2,notice:3};
+  items.sort((a,b)=>order[a.k]-order[b.k] || String(b.date).localeCompare(String(a.date)));
+  const counts = '<div style="margin-bottom:10px;display:flex;gap:8px;flex-wrap:wrap">'
+    + '<span class="pill green">انضم: '+fmt(t.joiners.length)+'</span>'
+    + '<span class="pill red">غادر: '+fmt(t.leavers.length + t.missing.length)+'</span>'
+    + '<span class="pill amber">انتقل: '+fmt(t.transfers.length)+'</span>'
+    + '<span class="pill amber">إشعار مغادرة قادم: '+fmt(t.upcoming.length)+'</span></div>';
+  table.innerHTML = items.length
+    ? '<thead><tr><th>الرقم</th><th>الاسم</th><th>القسم</th><th>المسمى الوظيفي</th><th>التاريخ</th><th>الحالة</th></tr></thead><tbody>'+
+      items.map(x=>{
+        const r = x.r;
+        let statusCell, deptCell = sectionLabel(r.sectionKey);
+        if(x.k==='joined') statusCell = '<span class="pill green">انضم</span>';
+        else if(x.k==='left') statusCell = '<span class="pill red">غادر</span>' + (x.reason ? ' <span class="muted" style="font-size:12px">'+x.reason+'</span>' : '');
+        else if(x.k==='notice') statusCell = '<span class="pill amber">إشعار مغادرة</span>' + (x.reason ? ' <span class="muted" style="font-size:12px">'+x.reason+'</span>' : '');
+        else { statusCell = '<span class="pill amber">انتقل</span>'; deptCell = sectionLabel(r.fromSectionKey)+' ← '+sectionLabel(r.sectionKey); }
+        return '<tr><td>'+val(r.employeeNo)+'</td><td>'+val(r.name)+'</td><td>'+deptCell+'</td><td>'+val(r.job)+'</td><td>'+fmtDay(x.date)+'</td><td>'+statusCell+'</td></tr>';
+      }).join('')+'</tbody>'
+    : '<tbody><tr><td class="muted">لا يوجد أي انضمام أو مغادرة أو نقل خلال آخر 30 يوم.</td></tr></tbody>';
+  document.getElementById('turnoverCounts').innerHTML = counts;
 }
 function renderMissingData(activeAct){
   const withMissing = activeAct.filter(r=>missingFields(r).length>0);
@@ -705,10 +735,9 @@ function renderAll(){
   const missing = renderMissingData(activeAct);
   if(turnoverDetailsVisible) renderTurnoverDetails();
   const scopeAllActive = activeRows(sectionScope(rows));
-  const leaversInScope = lastUpdate ? (lastUpdate.leavers||[]).filter(r=>currentSection==='all' || r.sectionKey===currentSection) : [];
-  const transfersInScope = lastUpdate ? (lastUpdate.transfers||[]).filter(r=>currentSection==='all' || r.sectionKey===currentSection || r.fromSectionKey===currentSection) : [];
-  const turnoverMoves = leaversInScope.length + transfersInScope.length;
-  const turnoverBase = scopeAllActive.length + leaversInScope.length;
+  const t30 = turnoverLast30();
+  const turnoverMoves = t30.leavers.length + t30.missing.length + t30.transfers.length;
+  const turnoverBase = scopeAllActive.length + t30.leavers.length + t30.missing.length;
 
   document.getElementById('kActive').textContent = fmt(activeAct.length);
   document.getElementById('kSaud').textContent = pct(saud, activeAct.length);
@@ -721,7 +750,7 @@ function renderAll(){
   document.getElementById('statusBreakdownTotal').textContent = bd.pendingCount ? fmt(bd.pendingCount) + ' من إجمالي ' + fmt(bd.total) + ' موظف نشط' : '';
 
   document.getElementById('saudAlert').innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> نسبة السعودة: ' + pct(saud, activeAct.length);
-  document.getElementById('turnAlert').innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> مؤشر الدوران: ' + pct(turnoverMoves, turnoverBase) + ' — اضغط للتفاصيل';
+  document.getElementById('turnAlert').innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> مؤشر الدوران (آخر 30 يوم): ' + pct(turnoverMoves, turnoverBase) + ' — اضغط للتفاصيل';
   document.getElementById('dataAlert').innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> نواقص بيانات: ' + fmt(missing) + ' — اضغط للتفاصيل';
 
   document.getElementById('chartATitle').textContent = currentSection==='all' ? 'عدد الموظفين حسب القسم' : 'عدد الموظفين حسب المسمى الوظيفي';
@@ -775,8 +804,10 @@ async function cloudDelete(key){
 async function loadCloudData(){
   const rawRows = await cloudGet(STORE_ROWS_KEY);
   const rawUpdate = await cloudGet(STORE_UPDATE_KEY);
-  if(rawRows){ try{ rows = withSectionKey(JSON.parse(rawRows)); }catch(e){ rows = DEFAULT_ROWS; } }
+  if(rawRows){ try{ rows = withSectionKey(JSON.parse(rawRows)).map(r=>Object.assign({}, r, {_savedStatus: r.status, status: statusFromTermDate(r.terminationDate)})); }catch(e){ rows = DEFAULT_ROWS; } }
   if(rawUpdate){ try{ lastUpdate = JSON.parse(rawUpdate); }catch(e){ lastUpdate = null; } }
+  const rawEvents = await cloudGet(EVENTS_KEY);
+  if(rawEvents){ try{ events = JSON.parse(rawEvents) || []; }catch(e){ events = []; } }
 }
 
 // ---------- Admin (gated by signed-in Firebase account, not a shared password) ----------
@@ -808,7 +839,8 @@ async function clearAllData(){
   box.textContent = 'جاري المسح...';
   await cloudDelete(STORE_ROWS_KEY);
   await cloudDelete(STORE_UPDATE_KEY);
-  rows = []; lastUpdate = null;
+  await cloudDelete(EVENTS_KEY);
+  rows = []; lastUpdate = null; events = [];
   box.innerHTML = '<b>تم مسح كل البيانات على كل الأجهزة.</b>';
   currentSection = 'all';
   renderAll();
@@ -821,7 +853,7 @@ function normalizeSheet(arr){
     let o = {};
     for(const [k,keys] of Object.entries(arMap)) o[k] = pick(r,keys);
     ['hireDate','terminationDate','birthDate'].forEach(k=>o[k]=excelDate(o[k]));
-    o.status = (o.terminationDate && o.terminationDate <= todayISO()) ? 'Terminated' : 'Active';
+    o.status = statusFromTermDate(o.terminationDate);
     o.sectionKey = isSjahiStudent(o) ? null : classifySection(o.section);
     return o;
   });
@@ -847,7 +879,7 @@ function readUpload(file){
   const reader = new FileReader();
   reader.onload = async e=>{
     try{
-      const wb = XLSX.read(e.target.result, {type:'array', cellDates:true});
+      const wb = XLSX.read(e.target.result, {type:'array'});
       let allRows = [];
       wb.SheetNames.forEach(name=>{
         const ws = wb.Sheets[name];
@@ -874,15 +906,15 @@ function computeDiff(oldRows, newRows){
     const id = String(r.employeeNo);
     if(!oldIds.has(id)) return false;
     const old = oldById[id];
-    return r.status==='Terminated' && old.status!=='Terminated';
+    return r.status==='Terminated' && (old._savedStatus||old.status)!=='Terminated';
   });
   const transfers = newRows.filter(r=>{
     const id = String(r.employeeNo);
     if(!oldIds.has(id)) return false;
     const old = oldById[id];
-    return r.status==='Active' && old.status==='Active' && old.sectionKey !== r.sectionKey;
+    return r.status==='Active' && (old._savedStatus||old.status)==='Active' && old.sectionKey !== r.sectionKey;
   }).map(r=>Object.assign({}, r, {fromSectionKey: oldById[String(r.employeeNo)].sectionKey}));
-  return {joiners, leavers: leaversMissing.concat(leaversTerminated), transfers};
+  return {joiners, leavers: leaversMissing.concat(leaversTerminated), missing: leaversMissing, transfers};
 }
 async function processUploadedRows(allRows, fileName, duplicatesRemoved){
   const resultBox = document.getElementById('uploadResult');
@@ -893,12 +925,23 @@ async function processUploadedRows(allRows, fileName, duplicatesRemoved){
     return;
   }
   const diff = computeDiff(rows, matched);
+  const today = todayISO();
+  const cutoff = daysAgoISO(120);
+  const slim = (r,type,extra)=>Object.assign({type, date: today, employeeNo: r.employeeNo, name: r.name, job: r.job, sectionKey: r.sectionKey}, extra||{});
+  const newEvents = diff.transfers.map(r=>slim(r,'transferred',{fromSectionKey:r.fromSectionKey}))
+    .concat((diff.missing||[]).map(r=>slim(r,'left')));
+  const seen = new Set();
+  events = events.concat(newEvents).filter(e=>e.date>=cutoff).filter(e=>{
+    const k=[e.type,e.employeeNo,e.fromSectionKey||'',e.sectionKey||'',e.date].join('|');
+    if(seen.has(k)) return false; seen.add(k); return true;
+  });
   rows = matched;
   lastUpdate = {at: new Date().toISOString(), fileName, totalScanned: allRows.length, totalMatched: matched.length, joiners: diff.joiners, leavers: diff.leavers, transfers: diff.transfers};
 
   resultBox.textContent = 'جاري الحفظ ومزامنة البيانات مع كل الأجهزة...';
   const savedRows = await cloudSet(STORE_ROWS_KEY, JSON.stringify(rows));
   const savedUpdate = await cloudSet(STORE_UPDATE_KEY, JSON.stringify(lastUpdate));
+  await cloudSet(EVENTS_KEY, JSON.stringify(events));
   const syncNote = (savedRows && savedUpdate)
     ? 'تمت المزامنة — أي جهاز يفتح الرابط ويعمل تحديث للصفحة سيشوف هذه البيانات.'
     : 'تنبيه: تعذّرت مزامنة البيانات مع الأجهزة الأخرى (التخزين السحابي غير متاح في هذا السياق)؛ البيانات محفوظة على هذا الجهاز فقط.';
