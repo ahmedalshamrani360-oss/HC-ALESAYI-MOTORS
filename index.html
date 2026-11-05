@@ -690,12 +690,82 @@ html[lang="en"] input[type="email"],html[lang="en"] input[type="number"]{directi
 #ecFileModal .ec-preview-doc p{white-space:pre-wrap;overflow-wrap:anywhere;margin:0 0 10px}
 #ecFileModal .ec-preview-label{background:#fff7df;border-bottom:1px solid #efdfad;color:#785d24;padding:9px 15px;font-size:12px}
 @media(max-width:600px){#ecFileModal .ec-preview-doc{padding:13px 16px}#ecFileModal .ec-preview-sheetwrap{padding:5px}}
+
+
+/* V61 — Branch Network & Services, private active DB employee drilldown */
+.bn-hero{position:relative;isolation:isolate;overflow:hidden;color:#fff;background:linear-gradient(122deg,#102b4e 2%,#1b497a 64%,#176e81);padding:30px 34px;border-radius:22px;box-shadow:0 18px 38px #18385620;margin-bottom:18px}
+.bn-hero:after{content:"";position:absolute;inset:auto -45px -120px auto;width:340px;height:340px;border:48px solid #ffffff15;border-radius:50%;z-index:-1}
+.bn-hero .bn-kicker{font:800 11px Inter,Arial,sans-serif;letter-spacing:.14em;color:#aee7e8;margin-bottom:12px}
+.bn-hero h1{font-size:clamp(25px,2.7vw,38px);margin:0 0 9px;color:#fff;font-weight:850;letter-spacing:-.6px}
+.bn-hero p{color:#d8e9f5;max-width:720px;line-height:1.85;margin:0;font-size:13px}
+.bn-hero-bottom{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:22px}
+.bn-pill-light{border:1px solid #ffffff4d;border-radius:999px;padding:7px 12px;background:#ffffff15;font:650 11px Inter,Arial,sans-serif;color:white}
+.bn-dash-cards{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:13px;margin-bottom:18px}
+.bn-stat{background:#fff;border:1px solid #e6edf5;border-radius:17px;padding:17px 17px 15px;box-shadow:0 5px 20px #142f4a0a;position:relative;min-width:0;overflow:hidden}
+.bn-stat:before{content:"";display:block;width:36px;height:4px;border-radius:4px;background:var(--bc,#2b638f);margin-bottom:12px}
+.bn-stat label{font-size:12px;font-weight:700;color:#58708c;display:block;line-height:1.5}
+.bn-stat strong{display:block;font:800 35px Inter,Arial,sans-serif;line-height:1.45;color:#142e4e;margin-top:5px}
+.bn-stat small{font-size:10px;color:#7890a7;line-height:1.5}
+.bn-analytics{display:grid;grid-template-columns:1.24fr .95fr;gap:17px;margin-bottom:17px;align-items:stretch}
+.bn-panel{background:#fff;border:1px solid #e4ebf4;border-radius:18px;padding:22px;box-shadow:0 6px 20px #1838560a;min-width:0}
+.bn-panel h3{font-size:17px;margin:0 0 6px;color:#173a5f;font-weight:800}
+.bn-muted{font-size:11px;color:#71859a;line-height:1.7}
+.bn-city-list{display:grid;gap:13px;margin-top:20px}
+.bn-city-row{display:grid;grid-template-columns:110px minmax(0,1fr) 35px;align-items:center;gap:12px;font-size:12px;color:#264560}
+.bn-track{height:9px;background:#eaf0f7;border-radius:9px;overflow:hidden}
+.bn-track i{display:block;background:linear-gradient(90deg,#29819b,#294e99);height:100%;border-radius:9px}
+.bn-city-row b{font:700 12px Inter,Arial,sans-serif;text-align:center}
+.bn-activities-chart{display:grid;gap:12px;margin-top:19px}
+.bn-act-row{display:grid;grid-template-columns:120px minmax(0,1fr) 36px;gap:9px;align-items:center;font-size:12px;color:#34506b}
+.bn-act-row .bn-track i{background:var(--bc)}
+.bn-note{margin:14px 0 0;padding:10px 12px;background:#f1f6fb;border:1px solid #dde9f5;border-radius:11px;font-size:11px;color:#5c7188;line-height:1.7}
+.bn-directory{margin-top:18px}
+.bn-directory-top{display:flex;gap:12px;justify-content:space-between;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+.bn-directory-top h3{margin:0;font-size:19px;color:#173858}
+.bn-live-chip{display:inline-flex;align-items:center;gap:8px;background:#eaf8f2;border:1px solid #c8eede;color:#17684f;border-radius:999px;padding:9px 12px;font-weight:750;font-size:11px}
+.bn-live-chip:before{content:"";background:#2daa81;width:7px;height:7px;border-radius:50%}
+.bn-controls{display:grid;grid-template-columns:minmax(190px,1fr) 180px 170px;gap:9px;margin-bottom:14px}
+.bn-controls input,.bn-controls select,.bn-staff-search{width:100%;border:1px solid #dce6f0;background:#fff;border-radius:11px;min-height:42px;padding:9px 12px;color:#1f3956;font:inherit;font-size:12px;outline:none}
+.bn-controls input:focus,.bn-controls select:focus,.bn-staff-search:focus{border-color:#3678b7;box-shadow:0 0 0 3px #3678b71a}
+.bn-tabs{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:18px}
+.bn-tabs button{cursor:pointer;border:1px solid #dce5ef;padding:9px 12px;border-radius:10px;background:white;color:#425d78;font-weight:750;font-size:12px}
+.bn-tabs button.active{background:#173b67;color:white;border-color:#173b67;box-shadow:0 5px 11px #173b6724}
+.bn-tablewrap{overflow:auto;border:1px solid #e1e9f2;border-radius:14px;background:#fff}
+.bn-table{width:100%;border-collapse:collapse;min-width:780px;text-align:start;font-size:12px}
+.bn-table th{background:#f1f5fa;color:#48617c;padding:13px 12px;font-weight:800;white-space:nowrap;border-bottom:1px solid #dce7ef;text-align:start}
+.bn-table td{padding:12px;border-bottom:1px solid #edf1f5;color:#314962;vertical-align:middle}
+.bn-table tr:last-child td{border-bottom:none}
+.bn-table tbody tr:hover{background:#f7fafc}
+.bn-name{font-weight:800;color:#19436b;font-size:12px}
+.bn-activity-pills{display:flex;flex-wrap:wrap;gap:5px}
+.bn-service-pill{display:inline-flex;gap:5px;align-items:center;padding:5px 7px;border-radius:7px;background:var(--light);color:var(--dark);font:700 10px Inter,Arial,sans-serif;white-space:nowrap}
+.bn-number{font:800 13px Inter,Arial,sans-serif;color:#1e486c}
+.bn-button{border:1px solid #ccddec;background:#edf4fc;color:#16446c;padding:8px 13px;border-radius:9px;font-weight:800;font-size:11px;cursor:pointer;white-space:nowrap}
+.bn-button:hover{background:#dfeefc}
+.bn-detail{background:#fff;border:1px solid #d7e5f3;border-radius:18px;padding:22px;margin-top:17px;box-shadow:0 12px 27px #153a600e}
+.bn-detail-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+.bn-detail h3{margin:0 0 6px;font-size:21px;color:#173a60;font-weight:850}
+.bn-detail .bn-close{border:1px solid #e5eaf0;background:#fff;padding:8px 13px;border-radius:9px;cursor:pointer;color:#365676}
+.bn-employee-kpis{display:flex;flex-wrap:wrap;gap:12px;margin:14px 0}
+.bn-emp-metric{background:#eff5fc;border:1px solid #e0eaf4;border-radius:11px;padding:9px 14px;font-size:12px;color:#375570}
+.bn-emp-metric strong{font:800 18px Inter,Arial,sans-serif;color:#193e6b}
+.bn-emp-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:14px 0}
+.bn-emp-card{border:1px solid #e4ebf2;border-radius:12px;padding:13px;background:#fbfdff;min-width:0}
+.bn-emp-card strong{color:#183d67;display:block;font-size:13px;overflow-wrap:anywhere}
+.bn-emp-card .bn-ar{font-size:12px;color:#647c91;margin-top:4px}
+.bn-emp-card .bn-meta{display:flex;gap:8px;flex-wrap:wrap;font-size:10.5px;color:#678198;margin-top:10px}
+.bn-empty{background:#f7faff;border:1px dashed #cbdceb;border-radius:12px;padding:28px;color:#607c96;text-align:center;line-height:1.85;font-size:12px}
+.bn-subnote{color:#667e95;font-size:11px;line-height:1.8;margin:9px 0 0}
+@media(max-width:1200px){.bn-dash-cards{grid-template-columns:repeat(3,minmax(0,1fr))}.bn-analytics{grid-template-columns:1fr}}
+@media(max-width:700px){.bn-hero{padding:21px}.bn-dash-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.bn-controls{grid-template-columns:1fr}.bn-stat strong{font-size:27px}.bn-emp-grid{grid-template-columns:1fr}.bn-panel{padding:16px}}
+
 </style></head><body>
 <div class="app" id="appRoot"><aside class="side" id="sidebar">
 <div class="brand"><span class="brand-logo-frame"><img alt="شعار شركة العيسائي للسيارات — ALESAYI MOTORS" class="brand-company-logo" src="data:image/png;base64,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"/></span><button class="sidebar-toggle" onclick="toggleSidebar()" title="طي القائمة" type="button">☰</button></div>
 <div class="nav-label">COMMAND CENTER</div>
 <div class="nav" id="primaryNav">
 <button class="active" data-page="departments" onclick="navigate('departments')" type="button"><span class="ico">▤</span><span class="nav-text">الإدارات والأقسام</span></button>
+<button data-page="branches" onclick="navigate('branches')" type="button"><span class="ico">⌂</span><span class="nav-text">شبكة الفروع والأنشطة</span></button>
 <button data-page="manpower" onclick="navigate('manpower')" type="button"><span class="ico">▥</span><span class="nav-text">Manpower | القوى العاملة</span></button>
 <button data-page="recruitment" onclick="navigate('recruitment')" type="button"><span class="ico">♧</span><span class="nav-text">التوظيف</span></button>
 <button data-page="movements" onclick="navigate('movements')" type="button"><span class="ico">⇄</span><span class="nav-text">حركات الموظفين</span></button>
@@ -717,6 +787,31 @@ html[lang="en"] input[type="email"],html[lang="en"] input[type="number"]{directi
 <div class="filterbar org-employee-filters"><input aria-label="البحث في موظفي الإدارة والأقسام" id="orgEmployeeSearch" oninput="orgEmployeesPage=1;renderOrgWorkforce()" placeholder="بحث بالاسم أو الرقم أو المسمى أو القسم الفرعي أو اسم المدير..." type="search"/><span class="soft-tag" style="padding:12px 14px">● النشطون فقط</span></div>
 <div aria-live="polite" id="orgWorkforceSlot"></div>
 </div>
+</section>
+
+<section class="section" id="branches" aria-label="شبكة الفروع والأنشطة">
+  <div class="bn-hero">
+    <div class="bn-kicker">ALESAYI MOTORS · BRANCH INTELLIGENCE</div>
+    <h1 id="bnHeadTitle">شبكة الفروع والأنشطة</h1>
+    <p id="bnHeadDesc">نظرة شاملة لتوزيع فروع المبيعات والصيانة والمعدات وقطع الغيار؛ مع قوائم الموظفين النشطين مباشرةً من DB Sheet المحفوظ في Firebase.</p>
+    <div class="bn-hero-bottom">
+      <span class="bn-pill-light" id="bnSourceLabel">📄 مرجع الفروع: MD 14/10/2026</span>
+      <span class="bn-pill-light" id="bnAccessLabel">🔒 أسماء الموظفين من DB فقط · النشطون</span>
+    </div>
+  </div>
+  <div class="bn-dash-cards" id="bnStatCards"></div>
+  <div class="bn-analytics">
+    <div class="bn-panel"><h3 id="bnCityHeading">التوزيع الجغرافي للفروع</h3><div class="bn-muted" id="bnCitySubtitle">عدد الفروع المميزة في كل مدينة</div><div class="bn-city-list" id="bnCityBars"></div></div>
+    <div class="bn-panel"><h3 id="bnActivityHeading">انتشار الخدمات عبر الشبكة</h3><div class="bn-muted" id="bnActivitySubtitle">قد يضم الفرع أكثر من نشاط واحد</div><div class="bn-activities-chart" id="bnActivityBars"></div><div class="bn-note" id="bnStatsNote">أعداد النشاط مأخوذة من ملف MD المرفق (سجلات تاريخية)، وليست عدد الموظفين النشطين اليوم.</div></div>
+  </div>
+  <div class="bn-panel bn-directory" id="bnDirectoryPanel">
+    <div class="bn-directory-top"><div><h3 id="bnDirectoryTitle">دليل الفروع</h3><p class="bn-subnote" id="bnDirectoryDesc">26 فرعًا، مع استبعاد المقر الرئيسي والمستودع من عداد الفروع.</p></div><span class="bn-live-chip" id="bnActiveChip">DB النشطون: —</span></div>
+    <div class="bn-controls"><input type="search" id="bnSearch" placeholder="ابحث باسم الفرع أو المدينة..." oninput="bnApplyFilters()"/><select id="bnCity" onchange="bnApplyFilters()"></select><select id="bnSort" onchange="bnApplyFilters()"></select></div>
+    <div class="bn-tabs" id="bnActivityTabs"></div>
+    <div class="bn-tablewrap"><table class="bn-table"><thead id="bnTableHead"></thead><tbody id="bnTableBody"></tbody></table></div>
+    <p class="bn-subnote" id="bnReferenceNote">المواقع الأخرى: مقر Head Office Alesayi Plaza ومستودع Al Selai Werehouse غير محسوبين ضمن الفروع الـ26.</p>
+  </div>
+  <div class="bn-detail" id="bnDetail" hidden></div>
 </section>
 <section class="section" id="manpower">
 <div class="heading"><div><div class="eyebrow">MANPOWER PLANNING</div><h1>Manpower | تخطيط القوى العاملة</h1><p>اختر سنة الدراسة أولًا. كل سنة لها خطة أقسام واحتياجات وميزانية مستقلة عن بقية السنوات.</p></div></div>
@@ -1487,7 +1582,7 @@ function employeeTableHTML(list,orgDetail=false,tableKey=orgDetail?'org':'job'){
   }).join('')||`<tr><td colspan="${COLUMN_NAMES[tableKey].length}" class="empty-note">لا يوجد موظفون مطابقون للفلاتر.</td></tr>`}</tbody></table></div>`;
 }
 function sortEmployeesBySalary(rows){return rows.sort((a,b)=>(b.salary-a.salary)||String(a.name||a.nameAr).localeCompare(String(b.name||b.nameAr),'ar'));}
-function navigate(page){closeColumnPopover();document.querySelectorAll('.section').forEach(el=>el.classList.toggle('active',el.id===page));document.querySelectorAll('#primaryNav button').forEach(el=>el.classList.toggle('active',el.dataset.page===page));if(page==='departments')renderOrg();if(page==='manpower')renderManpower();if(page==='analytics')renderAnalytics();if(page==='recruitment')renderRecruitment();if(page==='tasks')renderTasks();if(page==='movements'&&movementSearched)renderMovementPage();window.scrollTo({top:0,behavior:'instant'});}
+function navigate(page){closeColumnPopover();document.querySelectorAll('.section').forEach(el=>el.classList.toggle('active',el.id===page));document.querySelectorAll('#primaryNav button').forEach(el=>el.classList.toggle('active',el.dataset.page===page));if(page==='departments')renderOrg();if(page==='branches')renderBranchNetwork();if(page==='manpower')renderManpower();if(page==='analytics')renderAnalytics();if(page==='recruitment')renderRecruitment();if(page==='tasks')renderTasks();if(page==='movements'&&movementSearched)renderMovementPage();window.scrollTo({top:0,behavior:'instant'});}
 function toggleSidebar(){document.getElementById('appRoot').classList.toggle('compact');document.getElementById('sidebar').classList.toggle('is-tiny');}
 function serialDate(v){
   if(v===null||v===undefined||v==='')return '';
@@ -3284,7 +3379,7 @@ function ecLoadEmployees(data){
  const valid=Array.isArray(data)&&data.length>0;
  if(!valid){importedEmployees=null;currentSnapshot=SNAPSHOT;}
  else {importedEmployees=data;currentSnapshot=summaryFromEmployees(data);}
- orgPath=[];resetJobFilters();renderOrg();renderAnalytics();if(mpSelectedYear)renderManpower();if(document.getElementById('reqType')?.value==='replacement')lookupReqReplacementEmployee();
+ orgPath=[];resetJobFilters();renderOrg();renderAnalytics();if(document.getElementById('branches')?.classList.contains('active'))renderBranchNetwork();if(mpSelectedYear)renderManpower();if(document.getElementById('reqType')?.value==='replacement')lookupReqReplacementEmployee();
  const note=document.getElementById('orgSourceNote');
  if(note)note.textContent=valid
    ?`DB Sheet متاح (${fmt(data.length)} سجل).`
@@ -3515,7 +3610,8 @@ window.addEventListener('message',function(ev){
    const bytes=new Uint8Array(binary.length);
    for(let i=0;i<binary.length;i++)bytes[i]=binary.charCodeAt(i);
    ecOldFileUrl=URL.createObjectURL(new Blob([bytes],{type:mime}));
-   ecOldFileName=name.replace(/[\\/\x00-\x1f<>:"|?*]/g,'_').slice(0,120)||'HC-attachment';
+   ecOldFileName=name.replace(/^[a-f0-9]{32}_/i,'').replace(/[\\/\x00-\x1f<>:"|?*]/g,'_').slice(0,120)||'HC-attachment';
+   document.getElementById('ecFileModalTitle').textContent='📄 '+ecOldFileName;
    if(ecFileTimer){clearTimeout(ecFileTimer);ecFileTimer=0;}
    ecSetFileDownloadReady(true);
    ecRenderFileContent_(bytes,mime,ecOldFileName);
@@ -3618,6 +3714,7 @@ Object.assign(dict,{
  'عرض CV':'Open CV','بيانات طلب التوظيف':'Application details',
  'التفاصيل':'Details','رقم الجوال':'Mobile',
 });
+Object.assign(dict,{'شبكة الفروع والأنشطة':'Branch Network & Services'});
 const englishToArabic=new Map(Object.entries(dict).map(([a,b])=>[b,a]));
 let language=localStorage.getItem('ec_admin_language')==='en'?'en':'ar';
 const restoreTitle=document.title;
@@ -3665,4 +3762,121 @@ function setLanguage(value){language=value==='en'?'en':'ar';localStorage.setItem
 function handleToggle(e){if(e.target.closest('#ecLanguageToggle,#ecLoginLanguageToggle')){e.preventDefault();setLanguage(language==='ar'?'en':'ar');}}
 document.addEventListener('click',handleToggle);
 renderLanguage();observer.observe(document.body,{childList:true,subtree:true,characterData:true});
-})();</script></body></html>
+})();</script><script>
+/* V61 — Aggregated branch coverage sourced from MD 14102026(3).xlsx.
+   NO roster or employee personal data is embedded in this HTML.
+   All names/active headcounts are read ONLY from authenticated DB Sheet in Firebase. */
+const BN_REFERENCE=[{"id":0,"name":"Abha Branch","city":"ABHA","sales":3,"service":13,"equipment":0,"parts":7,"records":25},{"id":1,"name":"Abhur Branch","city":"JEDDAH","sales":4,"service":0,"equipment":0,"parts":0,"records":4},{"id":2,"name":"Al Khaleej Branch","city":"RIYADH","sales":0,"service":0,"equipment":0,"parts":2,"records":2},{"id":3,"name":"Al Khodariyah Branch","city":"DAMMAM","sales":0,"service":0,"equipment":0,"parts":4,"records":4},{"id":4,"name":"Al Nuzha Pr. Sultan Rd Branch","city":"JEDDAH","sales":0,"service":0,"equipment":0,"parts":4,"records":4},{"id":5,"name":"Al Qateef Branch","city":"DAMMAM","sales":0,"service":0,"equipment":0,"parts":1,"records":1},{"id":6,"name":"Alwasat Branch","city":"RIYADH","sales":0,"service":0,"equipment":8,"parts":4,"records":13},{"id":7,"name":"Auto Mall Branch","city":"JEDDAH","sales":5,"service":0,"equipment":0,"parts":0,"records":6},{"id":8,"name":"Bani Malik Branch","city":"JEDDAH","sales":0,"service":0,"equipment":0,"parts":4,"records":4},{"id":9,"name":"Dammam Branch","city":"DAMMAM","sales":27,"service":42,"equipment":10,"parts":20,"records":113},{"id":10,"name":"Exit 18 Branch","city":"RIYADH","sales":0,"service":23,"equipment":0,"parts":2,"records":26},{"id":11,"name":"Haffof Branch","city":"Hafoof","sales":4,"service":10,"equipment":0,"parts":5,"records":24},{"id":12,"name":"Hail Branch","city":"HAIL","sales":2,"service":9,"equipment":0,"parts":3,"records":17},{"id":13,"name":"Jizan Branch","city":"JIZAN","sales":4,"service":10,"equipment":0,"parts":5,"records":24},{"id":14,"name":"Jubail Branch","city":"Jubail","sales":3,"service":9,"equipment":0,"parts":3,"records":17},{"id":15,"name":"Khorais Branch","city":"RIYADH","sales":32,"service":28,"equipment":0,"parts":12,"records":90},{"id":16,"name":"Kilo 11 Branch","city":"JEDDAH","sales":17,"service":57,"equipment":21,"parts":52,"records":185},{"id":17,"name":"Madinah Branch","city":"MADINAH","sales":5,"service":16,"equipment":0,"parts":5,"records":30},{"id":18,"name":"Madinah Rood Branch","city":"JEDDAH","sales":23,"service":30,"equipment":0,"parts":10,"records":95},{"id":19,"name":"Makkah Branch","city":"MAKKAH","sales":5,"service":11,"equipment":0,"parts":8,"records":28},{"id":20,"name":"Manfouha Branch","city":"RIYADH","sales":0,"service":0,"equipment":0,"parts":1,"records":1},{"id":21,"name":"Parts King Saud Road Branch","city":"DAMMAM","sales":0,"service":0,"equipment":0,"parts":2,"records":2},{"id":22,"name":"Qassim Branch","city":"QASSEM","sales":3,"service":8,"equipment":0,"parts":4,"records":18},{"id":23,"name":"Tabouk Branch","city":"TABUK","sales":4,"service":12,"equipment":0,"parts":4,"records":24},{"id":24,"name":"Ummul Hamam Branch","city":"DAMMAM","sales":0,"service":0,"equipment":0,"parts":0,"records":1},{"id":25,"name":"Yanbu Branch","city":"YANBU","sales":4,"service":9,"equipment":0,"parts":3,"records":19}];
+const BN_ACTIVITIES=[
+ {key:'sales',ar:'المبيعات',en:'Sales',color:'#2563a9',light:'#e7f0fc',dark:'#205891'},
+ {key:'service',ar:'الصيانة',en:'Service',color:'#128784',light:'#e1f6f2',dark:'#13766d'},
+ {key:'equipment',ar:'المعدات',en:'Equipment',color:'#a06cde',light:'#f1eafe',dark:'#7d4aaf'},
+ {key:'parts',ar:'قطع الغيار',en:'Spare Parts',color:'#e19d37',light:'#fff1dc',dark:'#9b6516'}
+];
+let bnActivity='all',bnSelected=null,bnStaffQuery='';
+function bnEn(){return document.documentElement.lang==='en';}
+function bnT(ar,en){return bnEn()?en:ar;}
+function bnEsc(v){return String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function bnNorm(v){return String(v||'').toLocaleLowerCase('en').replace(/[\u200e\u200f]/g,'').replace(/[^a-z0-9\u0600-\u06ff]/g,'');}
+function bnNumber(n){return new Intl.NumberFormat(bnEn()?'en-US':'ar-SA-u-nu-latn').format(n);}
+function bnActiveRows(){
+  if(!Array.isArray(importedEmployees))return null;
+  return importedEmployees.filter(e=>e&&isActiveEmployee(e)); // includes hire/term and excludes SAJAHI
+}
+function bnEmployeesFor(branch){
+  const rows=bnActiveRows();if(rows===null)return null;
+  const key=bnNorm(branch.name);
+  return rows.filter(e=>bnNorm(e.branch)===key);
+}
+function bnCategory(e){
+  const s=bnNorm([e.section,e.sectionAr,e.subsection,e.department,e.departmentAr].join(' '));
+  if(/sales|marketing|المبيعات|تسويق/.test(s))return 'sales';
+  if(/nationalservice|الصيانة|الخدمة|service/.test(s))return 'service';
+  if(/equipment|equipement|المعدات/.test(s))return 'equipment';
+  if(/nationalparts|spareparts|قطعالغيار|parts/.test(s))return 'parts';
+  return '';
+}
+function bnCityNames(){return {'JEDDAH':['جدة','Jeddah'],'RIYADH':['الرياض','Riyadh'],'DAMMAM':['الدمام','Dammam'],'ABHA':['أبها','Abha'],'Hafoof':['الهفوف','Al Ahsa'],'HAIL':['حائل','Hail'],'JIZAN':['جازان','Jazan'],'Jubail':['الجبيل','Jubail'],'MADINAH':['المدينة المنورة','Madinah'],'MAKKAH':['مكة المكرمة','Makkah'],'QASSEM':['القصيم','Qassim'],'TABUK':['تبوك','Tabuk'],'YANBU':['ينبع','Yanbu']};}
+function bnCityLabel(s){const d=bnCityNames()[s];return d?(bnEn()?d[1]:d[0]):s;}
+function bnSyncText(){
+  const dict={
+    bnHeadTitle:['شبكة الفروع والأنشطة','Branch Network & Services'],
+    bnHeadDesc:['نظرة شاملة لتوزيع فروع المبيعات والصيانة والمعدات وقطع الغيار؛ مع قوائم الموظفين النشطين مباشرةً من DB Sheet المحفوظ في Firebase.','Explore Sales, Service, Equipment and Spare Parts branches. Employee names are loaded exclusively from the live authenticated DB Sheet in Firebase.'],
+    bnSourceLabel:['📄 مرجع الفروع: MD 14/10/2026','📄 Branch reference: MD 14 Oct 2026'],
+    bnAccessLabel:['🔒 أسماء الموظفين من DB فقط · النشطون','🔒 Active employee names from DB only'],
+    bnCityHeading:['التوزيع الجغرافي للفروع','Branches by city'],bnCitySubtitle:['عدد الفروع المميزة في كل مدينة','Distinct branches per city'],
+    bnActivityHeading:['انتشار الخدمات عبر الشبكة','Service coverage across branches'],bnActivitySubtitle:['قد يضم الفرع أكثر من نشاط واحد','A branch may serve more than one business line'],
+    bnStatsNote:['عدد الفروع والأنشطة مأخوذ من ملف MD المرفق. سجلات الموظفين في ذلك الملف تاريخية ولا تُستخدم لعرض الأسماء أو عدد النشطين.','Branch and activity coverage comes from the MD attachment. Its historical employee records are NEVER used for employee names or active headcounts.'],
+    bnDirectoryTitle:['دليل الفروع','Branch directory'],bnDirectoryDesc:['26 فرعًا، مع استبعاد المقر الرئيسي والمستودع من العداد.','26 distinct branches; the head office and warehouse are excluded.'],
+    bnReferenceNote:['المواقع المستثناة من عدد الفروع: المقر الرئيسي Head Office Alesayi Plaza والمستودع Al Selai Werehouse.','Excluded locations: Head Office Alesayi Plaza and Al Selai Werehouse warehouse.']
+  };
+  for(const [id,pair] of Object.entries(dict)){const el=document.getElementById(id);if(el)el.textContent=bnEn()?pair[1]:pair[0];}
+  document.getElementById('bnSearch').placeholder=bnT('ابحث باسم الفرع أو المدينة...','Search branch or city...');
+}
+function bnRenderStats(){
+  const cards=[
+    {key:'all',value:BN_REFERENCE.length,title:bnT('إجمالي الفروع','Total branches'),desc:bnT('مواقع فريدة','Distinct locations'),color:'#224879'},
+    ...BN_ACTIVITIES.map(a=>({key:a.key,value:BN_REFERENCE.filter(b=>b[a.key]>0).length,title:bnEn()?a.en:a.ar,desc:bnT('فرع يقدم الخدمة','Branches offering the service'),color:a.color}))
+  ];
+  document.getElementById('bnStatCards').innerHTML=cards.map(c=>`<div class="bn-stat" style="--bc:${c.color}"><label>${bnEsc(c.title)}</label><strong>${bnNumber(c.value)}</strong><small>${bnEsc(c.desc)}</small></div>`).join('');
+  const all=bnActiveRows();const inBranches=all===null?null:all.filter(e=>BN_REFERENCE.some(b=>bnNorm(b.name)===bnNorm(e.branch)));
+  document.getElementById('bnActiveChip').textContent=all===null?bnT('DB النشطون: بانتظار التحميل','DB active: waiting for data'):bnT('👥 موظف نشط في الفروع: ','👥 Active branch employees: ')+bnNumber(inBranches.length);
+}
+function bnRenderCharts(){
+  const cityCount={};for(const b of BN_REFERENCE)cityCount[b.city]=(cityCount[b.city]||0)+1;
+  const entries=Object.entries(cityCount).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0]));
+  const max=Math.max(...entries.map(x=>x[1]),1);
+  document.getElementById('bnCityBars').innerHTML=entries.map(([city,n])=>`<div class="bn-city-row"><span>${bnEsc(bnCityLabel(city))}</span><div class="bn-track"><i style="width:${(n/max*100).toFixed(1)}%"></i></div><b>${bnNumber(n)}</b></div>`).join('');
+  document.getElementById('bnActivityBars').innerHTML=BN_ACTIVITIES.map(a=>{const n=BN_REFERENCE.filter(b=>b[a.key]>0).length;return `<div class="bn-act-row" style="--bc:${a.color}"><span>${bnEsc(bnEn()?a.en:a.ar)}</span><div class="bn-track"><i style="width:${(n/BN_REFERENCE.length*100).toFixed(1)}%"></i></div><b>${bnNumber(n)}</b></div>`;}).join('');
+}
+function bnControlValues(){
+  const cityEl=document.getElementById('bnCity'),old=cityEl.value;
+  const cities=[...new Set(BN_REFERENCE.map(x=>x.city))].sort((a,b)=>bnCityLabel(a).localeCompare(bnCityLabel(b),bnEn()?'en':'ar'));
+  cityEl.innerHTML=`<option value="">${bnT('جميع المدن','All cities')}</option>`+cities.map(c=>`<option value="${bnEsc(c)}">${bnEsc(bnCityLabel(c))}</option>`).join('');
+  cityEl.value=old;
+  const sort=document.getElementById('bnSort'),selected=sort.value;
+  sort.innerHTML=`<option value="name">${bnT('اسم الفرع','Branch name')}</option><option value="staff">${bnT('النشطون في DB','Active staff in DB')}</option><option value="records">${bnT('سجلات ملف MD','MD record count')}</option>`;
+  sort.value=selected||'name';
+  document.getElementById('bnActivityTabs').innerHTML=[{key:'all',ar:'كل الفروع',en:'All branches'},...BN_ACTIVITIES].map(a=>`<button type="button" class="${bnActivity===a.key?'active':''}" onclick="bnSetActivity('${a.key}')">${bnEsc(bnEn()?a.en:a.ar)} <span style="opacity:.68">${bnNumber(a.key==='all'?BN_REFERENCE.length:BN_REFERENCE.filter(b=>b[a.key]>0).length)}</span></button>`).join('');
+}
+function bnSetActivity(key){bnActivity=key;bnControlValues();bnApplyFilters();}
+function bnApplyFilters(){
+  const query=bnNorm(document.getElementById('bnSearch').value),city=document.getElementById('bnCity').value,sort=document.getElementById('bnSort').value;
+  const rows=BN_REFERENCE.filter(b=>(bnActivity==='all'||b[bnActivity]>0)&&(!city||city===b.city)&&(!query||bnNorm(b.name).includes(query)||bnNorm(bnCityLabel(b.city)).includes(query)));
+  rows.sort((a,b)=>sort==='records'?b.records-a.records:sort==='staff'?(bnEmployeesFor(b)?.length||0)-(bnEmployeesFor(a)?.length||0):a.name.localeCompare(b.name,'en'));
+  document.getElementById('bnTableHead').innerHTML=`<tr><th>${bnT('الفرع','Branch')}</th><th>${bnT('المدينة','City')}</th><th>${bnT('الأنشطة المتوفرة','Services')}</th><th>${bnT('الموظفون النشطون · DB','Active employees · DB')}</th><th>${bnT('التفاصيل','Details')}</th></tr>`;
+  document.getElementById('bnTableBody').innerHTML=rows.length?rows.map(b=>{
+    const em=bnEmployeesFor(b);const count=em===null?'—':bnNumber(em.length);
+    const chips=BN_ACTIVITIES.filter(a=>b[a.key]>0).map(a=>`<span class="bn-service-pill" style="--light:${a.light};--dark:${a.dark}" title="${bnT('سجلات ملف MD: ','MD records: ')}${b[a.key]}">${bnEsc(bnEn()?a.en:a.ar)} · ${bnNumber(b[a.key])}</span>`).join('');
+    return `<tr><td><div class="bn-name" dir="ltr">${bnEsc(b.name)}</div></td><td>${bnEsc(bnCityLabel(b.city))}</td><td><div class="bn-activity-pills">${chips||bnT('<span class="bn-muted">نشاط آخر</span>','<span class="bn-muted">Other activity</span>')}</div></td><td><span class="bn-number">${count}</span></td><td><button type="button" class="bn-button" onclick="bnOpen(${b.id})">${bnT('عرض الفرع والموظفين ←','View branch & staff →')}</button></td></tr>`;
+  }).join(''):`<tr><td colspan="5"><div class="bn-empty">${bnT('لا توجد فروع تطابق البحث.','No branches match your filters.')}</div></td></tr>`;
+  if(bnSelected!==null)bnShowDetail();
+}
+function bnOpen(idx){bnSelected=idx;bnStaffQuery='';bnShowDetail();document.getElementById('bnDetail').scrollIntoView({behavior:'smooth',block:'start'});}
+function bnClose(){bnSelected=null;document.getElementById('bnDetail').hidden=true;}
+function bnStaffSearch(v){bnStaffQuery=v;bnShowDetail(true);}
+function bnShowDetail(keepFocus=false){
+  const b=BN_REFERENCE.find(x=>x.id===bnSelected),slot=document.getElementById('bnDetail');if(!b){slot.hidden=true;return;}slot.hidden=false;
+  const staff=bnEmployeesFor(b),status=staff===null?bnT('انتظار تحميل DB Sheet من Firebase','Waiting for DB Sheet from Firebase'):bnT('الموظفون النشطون فقط · من DB Sheet','Active employees only · DB Sheet');
+  const title=`${bnEsc(b.name)}`;
+  let staffHtml='';
+  if(staff===null){staffHtml=`<div class="bn-empty">${bnT('قائمة الموظفين غير متاحة حتى يتم تحميل DB Sheet المحفوظ في Firebase. لا تُعرض أسماء من ملف MD المرجعي.','Employee list is unavailable until the authenticated Firebase DB Sheet loads. No names are taken from the MD reference.')}</div>`;}
+  else if(!staff.length){staffHtml=`<div class="bn-empty">${bnT('ما فيه موظفون نشطون مسجلون لهذا الفرع في نسخة DB الحالية. تأكد من تعبئة عمود «الفرع - انجليزي» وإعادة رفع DB إذا احتجت.','No active employees matched this branch in the current DB. Check the Branch column or re-import DB Sheet if needed.')}</div>`;}
+  else {
+    const filtered=staff.filter(e=>!bnStaffQuery||[e.name,e.nameAr,e.id,e.job,e.jobAr,e.section,e.sectionAr].some(x=>bnNorm(x).includes(bnNorm(bnStaffQuery))));
+    staffHtml=filtered.length?`<div class="bn-emp-grid">${filtered.sort((a,b)=>String(a.name||a.nameAr).localeCompare(String(b.name||b.nameAr),'ar')).map(e=>{
+      const cat=BN_ACTIVITIES.find(a=>a.key===bnCategory(e));
+      return `<div class="bn-emp-card"><strong>${bnEsc(e.name||e.nameAr||'—')}</strong>${e.nameAr&&e.name!==e.nameAr?`<div class="bn-ar">${bnEsc(e.nameAr)}</div>`:''}<div class="bn-meta"><span>#${bnEsc(e.id||'—')}</span><span>${bnEsc(bnEn()?(e.job||e.jobAr):(e.jobAr||e.job)||'—')}</span><span>${bnEsc(bnEn()?(e.section||e.sectionAr):(e.sectionAr||e.section)||'—')}</span>${cat?`<span>${bnEsc(bnEn()?cat.en:cat.ar)}</span>`:''}</div></div>`;
+    }).join('')}</div>`:`<div class="bn-empty">${bnT('ما فيه موظفون مطابقون للبحث.','No matching employees.')}</div>`;
+  }
+  const searchValue=bnEsc(bnStaffQuery);
+  slot.innerHTML=`<div class="bn-detail-head"><div><h3 dir="ltr">${title}</h3><div class="bn-muted">${bnEsc(bnCityLabel(b.city))} · ${status}</div></div><button class="bn-close" type="button" onclick="bnClose()">✕ ${bnT('إغلاق','Close')}</button></div><div class="bn-employee-kpis"><span class="bn-emp-metric">${bnT('الموظفون النشطون','Active employees')}: <strong>${staff===null?'—':bnNumber(staff.length)}</strong></span><span class="bn-emp-metric">${bnT('أنشطة الفرع','Branch services')}: <strong>${BN_ACTIVITIES.filter(a=>b[a.key]>0).length}</strong></span></div><input class="bn-staff-search" id="bnStaffInput" type="search" value="${searchValue}" oninput="bnStaffSearch(this.value)" placeholder="${bnT('ابحث عن موظف نشط بالاسم أو الرقم الوظيفي...','Find an active employee by name or ID...')}" aria-label="${bnT('بحث موظفين الفرع','Search branch staff')}"/><p class="bn-subnote">${bnT('الاسم والرقم والمسمى من DB Sheet النشط فقط. لا تظهر رواتب أو بيانات شخصية أخرى.','Name, employee ID and title come from the active DB Sheet only. Salaries and other personal data are not shown.')}</p>${staffHtml}`;
+  if(keepFocus){const el=document.getElementById('bnStaffInput');el.focus();el.setSelectionRange(el.value.length,el.value.length);}
+}
+function renderBranchNetwork(){
+  if(!document.getElementById('branches'))return;
+  bnSyncText();bnRenderStats();bnRenderCharts();bnControlValues();bnApplyFilters();
+}
+/* Hook on language toggle without changing the global bilingual renderer. */
+document.addEventListener('click',e=>{if(e.target.closest('#ecLanguageToggle'))setTimeout(()=>{if(document.getElementById('branches')?.classList.contains('active'))renderBranchNetwork();},0);});
+</script></body></html>
